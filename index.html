@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Find a Better Search</title>
+
+		<meta name="description" content="A presentation on elasticsearch in WordPress">
+		<meta name="author" content="Matthew Boynes">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/alley.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal concave">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h2>Finding a Better WordPress Search</h2>
+					<br />
+					<p>
+						by Matthew Boynes / @senyob / m@boyn.es<br />
+						Alley Interactive / @alleydev / <a href="http://alleyinteractive.com/">alleyinteractive.com</a>
+					</p>
+				</section>
+
+				<section>
+					<h2>You</h2>
+					<aside class="notes">
+						Who are you?<br />
+						What do you use for search?
+					</aside>
+				</section>
+
+				<section>
+					<section>
+						<h2>Built-in Search: History</h2>
+						<ul>
+							<li class="fragment">Searched the title and content for all words</li>
+							<li class="fragment">Each term must be present</li>
+							<li class="fragment">Ordered by date</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Built-in Search: 3.7 Updates</h2>
+						<ul>
+							<li class="fragment">
+								<p>Basic relevance sorting</p>
+								<ol class="fragment" style="font-size:0.6em">
+									<li style="margin-bottom:9px">Exact phrase is in title</li>
+									<li style="margin-bottom:9px">All keywords are in title</li>
+									<li style="margin-bottom:9px">Some keywords are in title</li>
+									<li style="margin-bottom:9px">Exact phrase is in content</li>
+									<li style="margin-bottom:9px">Keywords in the content</li>
+								</ol>
+							</li>
+							<li class="fragment">
+								<p>Stopwords are removed</p>
+								<small class="fragment">about, an, are, as, at, be, by, com, for, from, how, in, is, it, of, on, or, that, the, this, to, was, what, when, where, who, will, with, www</small>
+								<p class="fragment">Faster!</p>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Built-in Search: Problems</h2>
+						<h3 class="fragment">1. Relevant Results</h3>
+						<ul>
+							<li class="fragment">3.7 Helped! Still not great</li>
+							<li class="fragment">Only title and content are searched</li>
+							<li class="fragment">Searches are pretty literal</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Built-in Search: Problems</h2>
+						<h3>2. Speed / Performance</h3>
+						<p class="fragment">Anecdotal data using a five-term search...</p>
+						<ul>
+							<li class="fragment">700 rows in wp_posts: 350ms</li>
+							<li class="fragment">11,000 rows in wp_posts: 1.2s</li>
+							<li class="fragment">468,000 rows in wp_posts: 100s (!)</li>
+						</ul>
+						<p class="fragment">Bottom line: doesn't scale</p>
+					</section>
+
+					<!-- <section data-background="images/failwhale.png"></section> -->
+
+					<section data-background="images/tumbleweed.jpg">
+						<h2>Built-in Search: Problems</h2>
+						<h3>3. Features</h3>
+					</section>
+
+					<section>
+						<h2>&lt;/complaining&gt;</h2>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Finding a Better Search</h2>
+						<h3>Three critical components</h3>
+						<ul>
+							<li class="fragment">Relevance</li>
+							<li class="fragment">Speed &amp; Performance</li>
+							<li class="fragment">Features</li>
+						</ul>
+						<aside class="notes">
+							Relevance: Hard to define, but I know it when I see it<br />
+							Speed: Shouldn't be a factor. Scale indefinitely.<br />
+							Features: Fun! Filters, and facets, and spelling correction, ...
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Solutions</h2>
+						<ul>
+							<li class="fragment">MySQL-Based</li>
+							<li class="fragment">Google CSE</li>
+							<li class="fragment">Dedicated Search Engine</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>MySQL-Based</h2>
+						<p class="fragment">Pros:</p>
+						<ul>
+							<li class="fragment">Simple</li>
+							<li class="fragment">No additional software</li>
+						</ul>
+						<p class="fragment">Cons:</p>
+						<ul>
+							<li class="fragment">Complex queries</li>
+							<li class="fragment">Slow</li>
+							<li class="fragment">Affects site performance</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Google CSE</h2>
+						<p class="fragment">Pros:</p>
+						<ul>
+							<li class="fragment">Power of Google</li>
+							<li class="fragment">Good zero-configuration relevance</li>
+							<li class="fragment">No impact on performance</li>
+						</ul>
+						<p class="fragment">Cons:</p>
+						<ul>
+							<li class="fragment">Limited configuration &amp; customization</li>
+							<li class="fragment">Advertising or $$$</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Dedicated Search Engine</h2>
+						<p class="fragment">Pros:</p>
+						<ul>
+							<li class="fragment">Customizable</li>
+							<li class="fragment">Fast</li>
+							<li class="fragment">No impact on performance</li>
+						</ul>
+						<p class="fragment">Cons:</p>
+						<ul>
+							<li class="fragment">Need to implement it</li>
+							<li class="fragment">Need to manage it</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Dedicated Search Engine</h2>
+						<ul>
+							<li class="fragment">Solr</li>
+							<li class="fragment">Amazon CloudSearch</li>
+							<li class="fragment">Sphinx</li>
+							<li class="fragment">Xapian</li>
+							<li class="fragment"><strong>Elasticsearch</strong></li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Elasticsearch Overview</h2>
+						<p>"flexible and powerful open source, distributed real-time search and analytics engine for the cloud"</p>
+						<ul>
+							<li class="fragment">Cloud out-of-the-box</li>
+							<li class="fragment">JSON API</li>
+							<li class="fragment">Schema free</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Elasticsearch Relevance</h2>
+						<ul>
+							<li class="fragment">
+								<p>Built-in relevance scoring</p>
+								<p><img src="images/formula.png" alt="Elasticsearch scoring formula" style="max-width:50%" /></p>
+							</li>
+							<li class="fragment">Text analysis, e.g. word stemming</li>
+							<li class="fragment">Customizable</li>
+							<li class="fragment">Search any or all fields</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Elasticsearch Performance</h2>
+						<ul>
+							<li class="fragment">Super fast, no impact on site performance</li>
+							<li class="fragment">400,000 posts &lt;0.1s</li>
+							<li class="fragment">Built for scaling</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Elasticsearch Features</h2>
+						<ul>
+							<li class="fragment">Faceting</li>
+							<li class="fragment">Spelling correction ("did you mean?")</li>
+							<li class="fragment">Geo searches</li>
+							<li class="fragment">Wildcard searches</li>
+							<li class="fragment">Many more...</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Case Study: kff.org</h2>
+						<ul>
+							<li class="fragment">Major source of information in US health care and US role in global health care</li>
+							<li class="fragment">WordPress.com VIP</li>
+							<li class="fragment">Data galore!</li>
+						</ul>
+						<aside class="notes">
+							36 content types<br />
+							Go live!<br />
+							Information is of the utmost importance
+						</aside>
+					</section>
+
+ 				</section>
+
+				<section>
+
+					<section>
+						<h2>SearchPress</h2>
+						<ol>
+							<li class="fragment">Dead simple on the outside</li>
+							<li class="fragment">Developer-friendly on the inside</li>
+							<li class="fragment">Limitless &amp; Fast</li>
+						</ol>
+					</section>
+
+					<section>
+						<h2>SearchPress: Simplicity</h2>
+						<ul>
+							<li class="fragment">Settings: URL</li>
+							<li class="fragment">Index happens behind the scenes</li>
+							<li class="fragment">Search is replaced automatically</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>SearchPress: Developer Friendly</h2>
+						<ul>
+							<li class="fragment">Numerous actions &amp; filters</li>
+							<li class="fragment">WordPress-friendly access to the search API</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>SearchPress: Limitless</h2>
+						<ul>
+							<li class="fragment">Built with massive sites in mind</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Case Study: JTA</h2>
+					</section>
+
+					<section data-background="images/jta-archives.png"></section>
+
+					<section>
+						<h2>Case Study: JTA</h2>
+						<ul>
+							<li class="fragment">Need to search tags, authors, post meta</li>
+							<li class="fragment">Tried Google CSE, not customizable enough</li>
+							<li class="fragment">Date issues</li>
+							<li class="fragment">400k published posts</li>
+						</ul>
+					</section>
+
+					<section data-background="images/failwhale.png"></section>
+				</section>
+
+				<section>
+					<h1>Questions?</h1>
+					<dl>
+						<!-- <dt>Download:</dt> <dd>url.to/this/presentation</dd> -->
+						<dt>SearchPress:</dt> <dd>https://github.com/alleyinteractive/SearchPress</dd>
+						<dt>Twitter:</dt> <dd>@senyob</dd>
+						<dt>Email:</dt> <dd>mboynes@alleyinteractive.com</dd>
+					</dl>
+				</section>
+
+
+			</div>
+
+			<img src="images/logo.png" alt="Alley Interactive" id="logo" />
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: false,
+				rollingLinks: false,
+				transition: 'concave',
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
